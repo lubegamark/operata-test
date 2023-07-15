@@ -7,6 +7,8 @@ import { User } from './users/entities/user.entity';
 import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { AuthModule } from './auth/auth.module';
+import { WeatherModule } from './weather/weather.module';
+import { WeatherEvent } from './weather/entities/weatherEvent.entity';
 
 @Module({
   imports: [
@@ -18,10 +20,11 @@ import { AuthModule } from './auth/auth.module';
       username: 'operata',
       password: 'randomPassword',
       database: 'operata',
-      entities: [User],
+      entities: [User, WeatherEvent],
       synchronize: true,
     }),
     AuthModule,
+    WeatherModule,
   ],
   controllers: [AppController, UsersController],
   providers: [AppService, UsersService],
