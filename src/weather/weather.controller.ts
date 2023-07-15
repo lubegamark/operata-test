@@ -1,6 +1,7 @@
 import { Controller, Get, Logger, Query, UseGuards } from '@nestjs/common';
 import { WeatherService } from './weather.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { Throttle } from '@nestjs/throttler';
 
 @Controller('weather')
 export class WeatherController {
@@ -9,6 +10,7 @@ export class WeatherController {
 
   @Get('')
   @UseGuards(AuthGuard)
+  @Throttle(1, 60)
   queryWeather(@Query('lat') lat: number, @Query('lon') lon: number) {
     return this.weatherService.findWeather(lat, lon);
   }

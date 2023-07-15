@@ -9,6 +9,8 @@ import { UsersService } from './users/users.service';
 import { AuthModule } from './auth/auth.module';
 import { WeatherModule } from './weather/weather.module';
 import { WeatherEvent } from './weather/entities/weatherEvent.entity';
+import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -25,8 +27,16 @@ import { WeatherEvent } from './weather/entities/weatherEvent.entity';
     }),
     AuthModule,
     WeatherModule,
+    ThrottlerModule.forRoot(),
   ],
   controllers: [AppController, UsersController],
-  providers: [AppService, UsersService],
+  providers: [
+    AppService,
+    UsersService,
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
+    },
+  ],
 })
 export class AppModule {}
